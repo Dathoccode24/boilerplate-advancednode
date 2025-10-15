@@ -6,19 +6,24 @@ const fccTesting = require('./freeCodeCamp/fcctesting.js');
 
 const app = express();
 
-fccTesting(app); //For FCC testing purposes
+fccTesting(app); // For FCC testing purposes
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ✅ Cấu hình Pug làm template engine
+// ✅ View engine và thư mục pug
 app.set('view engine', 'pug');
-
-// ✅ Chỉ định thư mục chứa file pug
 app.set('views', './views/pug');
 
+// ✅ Route chính render index.pug với dữ liệu
 app.route('/').get((req, res) => {
-  res.render('index');
+  res.render('index', {
+    title: 'FCC Advanced Node and Express',
+    message: 'Pug template is working!',
+    showLogin: false,
+    showRegistration: false,
+    showSocialAuth: false
+  });
 });
 
 const PORT = process.env.PORT || 3000;
